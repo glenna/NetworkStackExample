@@ -1,11 +1,3 @@
-//
-//  NetworkingExampleTests.swift
-//  NetworkingExampleTests
-//
-//  Created by Glenna L Buford on 11.05.19.
-//  Copyright © 2019 Glenna L Buford. All rights reserved.
-//
-
 import XCTest
 @testable import NetworkingExample
 
