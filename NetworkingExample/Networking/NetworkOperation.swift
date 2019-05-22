@@ -25,7 +25,7 @@ class NetworkOperation<T, E>: Operation, NetworkOperationProtocol where T: Decod
     private let request: URLRequest
     private let completion: ((Result<T?, NetworkError>) -> Void)?
     
-    init(apiRouter: NYTAPIRouter,
+    init(with apiRouter: APIRouter,
          completion: ((Result<T?, NetworkError>) -> Void)? = nil) {
         self.request = apiRouter.urlRequest
         self.completion = completion

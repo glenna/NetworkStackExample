@@ -74,7 +74,7 @@ class MainViewController: UIViewController {
     }
     
     func doNetworkOperationStuff() {
-        let op: NetworkOperationWithoutGenerics = NetworkOperationWithoutGenerics(apiRouter: NYTAPIRouter.bestSellerCategories) { result in
+        let op: NetworkOperationWithoutGenerics = NetworkOperationWithoutGenerics(with: NYTAPIRouter.bestSellerCategories) { result in
             switch result {
             case .success(let data):
                 if let data: Data = data {
@@ -89,7 +89,7 @@ class MainViewController: UIViewController {
     }
     
     func doNetworkOperationGenericStuff() {
-let op: NetworkOperation<BestSellersCategoryListResponse, NetworkError> = NetworkOperation<BestSellersCategoryListResponse, NetworkError>(apiRouter: .bestSellerCategories) { result in
+let op: NetworkOperation<BestSellersCategoryListResponse, NetworkError> = NetworkOperation<BestSellersCategoryListResponse, NetworkError>(with: NYTAPIRouter.bestSellerCategories) { result in
     switch result {
     case .success(let bestSellerList):
         print(String(describing:bestSellerList?.count))

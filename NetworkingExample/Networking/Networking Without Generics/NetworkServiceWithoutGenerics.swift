@@ -14,7 +14,7 @@ class NetworkOperationWithoutGenerics: Operation, NetworkOperationProtocol {
     private let request: URLRequest
     private let completion: ((Result<Data?, NetworkError>) -> Void)?
     
-    init(apiRouter: NYTAPIRouter,
+    init(with apiRouter: APIRouter,
          completion: ((Result<Data?, NetworkError>) -> Void)? = nil) {
         self.request = apiRouter.urlRequest
         self.completion = completion
