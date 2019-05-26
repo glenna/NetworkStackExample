@@ -7,7 +7,7 @@ enum UserFacingError: Error {
 
 enum NYTBestSellersRequests {
     static func bestSellerCategories(completion: @escaping (Result<[BestSellerCategory], UserFacingError>) -> Void) {
-        let op: NetworkOperation<BestSellersCategoryListResponse, NetworkError> = NetworkOperation<BestSellersCategoryListResponse, NetworkError>(with: NYTAPIRouter.bestSellerCategories) { result in
+        let op: NetworkOperation<BestSellersCategoryListResponse> = NetworkOperation<BestSellersCategoryListResponse>(with: NYTAPIRouter.bestSellerCategories) { result in
             switch result {
             case .success(let bestSellerList):
                 guard let bestSellers: [BestSellerCategory] = bestSellerList?.list else {
@@ -16,7 +16,7 @@ enum NYTBestSellersRequests {
                 }
                 completion(.success(bestSellers))
             case .failure(let error):
-                completion(.failure(UserFacingError.networkError(error)))
+                completion(.failure(error))
             }
         }
         
@@ -24,7 +24,7 @@ enum NYTBestSellersRequests {
     }
     
     static func bestSellersList(completion: @escaping (Result<[BestSellersList], UserFacingError>) -> Void) {
-        let op: NetworkOperation =  NetworkOperation<BestSellersOverviewResponse, NetworkError>(with: NYTAPIRouter.bestSellersOverview(nil)) { result in
+        let op: NetworkOperation =  NetworkOperation<BestSellersOverviewResponse>(with: NYTAPIRouter.bestSellersOverview(nil)) { result in
             switch result {
             case .success(let bestSellersLists):
                 guard let bestSellersLists: [BestSellersList] = bestSellersLists?.results.lists else {
@@ -33,7 +33,7 @@ enum NYTBestSellersRequests {
                 }
                 completion(.success(bestSellersLists))
             case .failure(let error):
-                completion(.failure(UserFacingError.networkError(error)))
+                completion(.failure(error))
             }
         }
         

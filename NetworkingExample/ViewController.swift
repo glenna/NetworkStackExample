@@ -89,7 +89,7 @@ class MainViewController: UIViewController {
     }
     
     func doNetworkOperationGenericStuff() {
-let op: NetworkOperation<BestSellersCategoryListResponse, NetworkError> = NetworkOperation<BestSellersCategoryListResponse, NetworkError>(with: NYTAPIRouter.bestSellerCategories) { result in
+let op: NetworkOperation<BestSellersCategoryListResponse> = NetworkOperation<BestSellersCategoryListResponse>(with: NYTAPIRouter.bestSellerCategories) { result in
     switch result {
     case .success(let bestSellerList):
         print(String(describing:bestSellerList?.count))

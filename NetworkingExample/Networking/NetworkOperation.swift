@@ -11,7 +11,7 @@ protocol NetworkOperationProtocol: class {
     var operationState: OperationState { get set }
 }
 
-class NetworkOperation<T, E>: Operation, NetworkOperationProtocol where T: Decodable, E: Error {
+class NetworkOperation<T>: Operation, NetworkOperationProtocol where T: Decodable {
     var operationState: OperationState = .none {
         willSet {
             willChangeValue(forKey: newValue.rawValue)
@@ -23,10 +23,10 @@ class NetworkOperation<T, E>: Operation, NetworkOperationProtocol where T: Decod
     }
     
     private let request: URLRequest
-    private let completion: ((Result<T?, NetworkError>) -> Void)?
+    private let completion: ((Result<T?, Error>) -> Void)?
     
     init(with apiRouter: APIRouter,
-         completion: ((Result<T?, NetworkError>) -> Void)? = nil) {
+         completion: ((Result<T?, Error>) -> Void)? = nil) {
         self.request = apiRouter.urlRequest
         self.completion = completion
         operationState = .none
@@ -43,7 +43,7 @@ class NetworkOperation<T, E>: Operation, NetworkOperationProtocol where T: Decod
         let task: URLSessionDataTask = URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             guard let self = self else { return }
             if let error: Error = error {
-                self.completion?(Result.failure(NetworkError.error(error)))
+                self.completion?(Result.failure(error))
             } else {
                 guard let data: Data = data else {
                     self.completion?(Result.success(nil))
@@ -54,7 +54,7 @@ class NetworkOperation<T, E>: Operation, NetworkOperationProtocol where T: Decod
                     let decoded: T = try JSONDecoder().decode(T.self, from: data)
                     self.completion?(Result.success(decoded))
                 } catch {
-                    self.completion?(Result.failure(NetworkError.error(error)))
+                    self.completion?(Result.failure(error))
                 }
             }
         }
